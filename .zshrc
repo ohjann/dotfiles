@@ -70,7 +70,7 @@ export LESS="-R -F -X"
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
  else
-   export EDITOR='vim'
+   export EDITOR='nvim'
  fi
 
 # Compilation flags
@@ -97,15 +97,16 @@ alias ads="cd ~/projects/work/advertising/"
 alias tmux="tmux -2"
 alias api-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/api2-dev/ && vagrant reload)"
 alias gdl="git diff --name-only HEAD HEAD^1"
-alias vim-dirty='vim `git status --porcelain | sed -ne "s/^ M //p"`'
-alias vundle-install="vim +PluginInstall +qall"
-alias vundle-update="vim +PluginUpdate +qall"
+alias vim-dirty='nvim `git status --porcelain | sed -ne "s/^ M //p"`'
+alias vundle-install="nvim +PluginInstall +qall"
+alias vundle-update="nvim +PluginUpdate +qall"
 alias sudo='sudo ' # better sudo !!
+alias vim='nvim'
 
 
 # vimf - Open selected file in Vim with fzf and add to zsh_history
 vimf() {
-    FILE=$(fzf) && (echo -n ": "; echo -n $(date +%s); echo -n ":0;vim "; echo "$FILE") >> ~/.zsh_history && vim "$FILE"
+    FILE=$(fzf) && (echo -n ": "; echo -n $(date +%s); echo -n ":0;vim "; echo "$FILE") >> ~/.zsh_history && nvim "$FILE"
 }
 
 # fd - cd to selected directory
