@@ -69,6 +69,7 @@ set nolist           " List disables linebreak
 set wrapmargin=0     " Stop inserting line break on wrap
 set formatoptions+=1 " Stop wrapping
 set number           " Show line number
+set relativenumber   " hybrid line number
 set showmatch        " Hilights matching searched
 set ignorecase       " Searches are case insensitive...
 set smartcase        " ... unless they contain at least one capital letter
@@ -134,14 +135,8 @@ nnoremap tc :tabnew<CR>
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 6/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/6)<CR>
 
-" Settings for screen
-if match($TERM, "screen")!=-1
-    set term=xterm
-    syntax on
-endif
-
 " colors for tmux
-set term=screen-256color
+" set term=screen-256color
 
 " Start NERDTree on vimenter
 " autocmd vimenter * NERDTree
