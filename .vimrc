@@ -20,9 +20,10 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " plugins
-Plugin 'sjl/gundo.vim.git'
+Plugin 'sjl/gundo.vim'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-fugitive.git'
@@ -33,6 +34,7 @@ Plugin 'rking/ag.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'othree/html5.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
 Plugin 'rename'
 "Plugin 'php_localvarcheck.vim' " causes pattern uses more memory than 'maxmempattern' error on large files if enabled
 
@@ -78,12 +80,13 @@ set tags=./tags;/    " Search the source tree for tags
 set laststatus=2     " Always show the statusline
 set encoding=utf-8   " Necessary to show Unicode glyphs
 set nomodeline       " Disable reading the first and last few lines of each file for ex commands, for security reasons
-set noswapfile      " no swap files
-set statusline=%f\ "tail of the filename
+set noswapfile       " no swap files
+set statusline=%f\   "tail of the filename
 set statusline+=\ \ %c, "cursor column
 set statusline+=%l/%L "cursor line/total lines
 set statusline+=\ %P "percent through file
 set laststatus=2
+set mouse=""         " disable mouse
 
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
@@ -134,6 +137,9 @@ nnoremap tc :tabnew<CR>
 " Resizing split
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 6/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/6)<CR>
+
+" Press Space to turn off highlighting and clear any message already displayed.
+:nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " colors for tmux
 " set term=screen-256color
@@ -202,6 +208,8 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 let g:airline_powerline_fonts = 1
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
+" Enable syntastic integration
+let g:airline#extensions#syntastic#enabled = 1
 
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -218,6 +226,17 @@ let g:airline_theme = 'bubblegum'
 nnoremap <F6> :GundoToggle<CR>
 
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
+
+" syntastic recommended settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ignore_files = ['\m.twig$','\m.css$']
 
 " " " " " " " " " " " " " " " " " " " " " " " " "
 " Show function names in cwindow
