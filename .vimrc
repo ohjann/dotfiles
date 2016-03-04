@@ -20,7 +20,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " plugins
-Plugin 'sjl/gundo.vim'
+Plugin 'mbbill/undotree'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -35,6 +35,8 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'othree/html5.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
+" buggy Plugin 'sirver/ultisnips'
+" Plugin 'honza/vim-snippets'
 Plugin 'rename'
 "Plugin 'php_localvarcheck.vim' " causes pattern uses more memory than 'maxmempattern' error on large files if enabled
 
@@ -155,7 +157,6 @@ set undofile
 " set a directory to store the undo history
 set undodir=~/.vim/undo/
 
-
 " for templates
 let g:email = 'eoghan@thejournal.ie'
 let g:username = 'Eoghan Hynes'
@@ -222,8 +223,15 @@ let g:airline_theme = 'bubblegum'
 :highlight preprint ctermfg=white
 :match preprint /pre_print_r(.*);/
 
-" gundo
-nnoremap <F6> :GundoToggle<CR>
+" UndoTree
+nnoremap <F6> :UndotreeToggle<CR>
+
+" snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
 
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 
@@ -264,8 +272,6 @@ function! ShowFunc(sort)
     let &grepprg = gp_s
 endfunc
 " " " " " " " " " " " " " " " " " " " " " " " " "
-
-" " " " " " " " " " " " " " " " " " " " " " " " "
 " lazy pasting to avoid :set paste :set nopaste
 function! WrapForTmux(s)
   if !exists('$TMUX')
@@ -289,3 +295,17 @@ endfunction
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 " " " " " " " " " " " " " " " " " " " " " " " " "
+" Faster scroll mode
+let g:multiscroll_on = 0
+function! MultiScroll()
+    if g:multiscroll_on
+        noremap j j
+        noremap k k
+        let g:multiscroll_on = 0
+    else
+        noremap j 5j
+        noremap k 5k
+        let g:multiscroll_on = 1
+    endif
+endfunction
+map \k :call MultiScroll()<RETURN>
