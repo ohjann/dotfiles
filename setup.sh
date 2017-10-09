@@ -140,6 +140,8 @@ install_zsh () {
   fi
 }
 
+
+## TODO: link vimrc
 install_nvim() {
   # Test to see if neovim is installed. If it is:
   if [ -f /bin/nvim -o -f /usr/bin/nvim -o -f /usr/local/bin/nvim ]; then
