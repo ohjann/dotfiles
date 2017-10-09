@@ -149,6 +149,11 @@ install_nvim() {
   else
     platform=$(uname);
     if [[ $platform == 'Linux' ]]; then
+      # https://github.com/neovim/neovim/wiki/Installing-Neovim
+      sudo apt-get install software-properties-common
+      sudo apt-get install python-software-properties
+      sudo add-apt-repository ppa:neovim-ppa/stable
+      sudo apt-get update
       sudo apt-get install neovim
       install_nvim
     elif [[ $platform == 'Darwin' ]]; then
