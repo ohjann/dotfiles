@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Adapted from https://github.com/nicksp/dotfiles/blob/master/setup.sh mostly
 # setup.sh
 
@@ -76,10 +76,10 @@ cd $dir
 echo "done"
 
 declare -a FILES_TO_SYMLINK=(
-'dotfiles/agignore'
-'dotfiles/tmux.conf'
-'dotfiles/vimrc'
-'dotfiles/zshrc'
+    'dotfiles/agignore'
+    'dotfiles/tmux.conf'
+    'dotfiles/vimrc'
+    'dotfiles/zshrc'
 )
 
 # Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
