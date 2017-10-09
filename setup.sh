@@ -115,7 +115,7 @@ main () {
 
 install_zsh () {
   # Test to see if zshell is installed.  If it is:
-  if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
+  if [ -f /bin/zsh -o -f /usr/bin/zsh -o -f /usr/local/bin/zsh ]; then
     # Install Oh My Zsh if it isn't already present
     if [[ ! -d $dir/oh-my-zsh/ ]]; then
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -140,7 +140,28 @@ install_zsh () {
   fi
 }
 
+install_nvim() {
+  # Test to see if neovim is installed. If it is:
+  if [ -f /bin/nvim -o -f /usr/bin/nvim -o -f /usr/local/bin/nvim ]; then
+    # install vundle
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    nvim +BundleInstall
+  else
+    platform=$(uname);
+    if [[ $platform == 'Linux' ]]; then
+      sudo apt-get install neovim
+      install_nvim
+    elif [[ $platform == 'Darwin' ]]; then
+      echo "We'll install neovim, then re-run this script!"
+      brew install neovim
+      exit
+    fi
+  fi
+}
+
 main
 install_zsh
 
 source ~/.zshrc
+
+install_nvim
