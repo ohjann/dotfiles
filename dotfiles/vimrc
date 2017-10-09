@@ -6,15 +6,15 @@ set rtp+=~/.fzf
 " FZF integration
 let g:fzf_launcher = "fzf_launch %s"
 let g:fzf_action = {
-  \ 'ctrl-m': 'e',
-  \ 'ctrl-t': 'tabedit'}
+            \ 'ctrl-m': 'e',
+            \ 'ctrl-t': 'tabedit'}
 nnoremap <C-f> :FZF<cr>
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+"" call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -22,23 +22,28 @@ Plugin 'gmarik/Vundle.vim'
 " plugins
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/nerdtree.git'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jeetsukumaran/vim-buffergator.git'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tpope/vim-fugitive.git'
 Plugin 'aperezdc/vim-template.git'
 Plugin 'evidens/vim-twig.git'
 Plugin 'unblevable/quick-scope'
 Plugin 'rking/ag.vim'
 Plugin 'junegunn/goyo.vim'
-Plugin 'othree/html5.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/syntastic'
-" buggy Plugin 'sirver/ultisnips'
-" Plugin 'honza/vim-snippets'
-Plugin 'rename'
-"Plugin 'php_localvarcheck.vim' " causes pattern uses more memory than 'maxmempattern' error on large files if enabled
+"" Plugin 'scrooloose/syntastic' disable while trying out ALE
+Plugin 'sheerun/vim-polyglot'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mhinz/vim-signify'
+Plugin 'w0rp/ale'
+Plugin 'majutsushi/tagbar'
+Plugin 'ap/vim-css-color'
+Plugin 'mattn/emmet-vim'
+Plugin 'terryma/vim-multiple-cursors'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -55,6 +60,7 @@ function! StatuslineCurrentHighlight()
 endfunction
 
 syntax on
+set synmaxcol=250
 set backspace=2
 set background=dark
 set hidden           " Make certain buffers hidden
@@ -127,6 +133,9 @@ nmap <F7> :TagbarToggle<CR>
 map <F8> <C-]>
 " maps NERDTree to F10
 map <silent> <F10> :NERDTreeToggle<CR>
+" confirm before quit
+map :wq<CR>  :confirm quit<CR>
+map :q<CR>  :confirm quit<CR>
 
 " paste with correct indents
 nnoremap p p=`]
@@ -142,15 +151,6 @@ nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/6)<CR>
 
 " Press Space to turn off highlighting and clear any message already displayed.
 :nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" colors for tmux
-" set term=screen-256color
-
-" Start NERDTree on vimenter
-" autocmd vimenter * NERDTree
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" autocmd VimEnter * wincmd p
-
 
 " tell it to use an undo file
 set undofile
@@ -169,15 +169,6 @@ let mapleader=" "
 highlight OverLength ctermbg=Blue ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 
-" vim-markdown
-let g:vim_markdown_folding_disabled=1
-
-" Ctrl+P
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:30'
-let g:ctrlp_switch_buffer = 'Et'
-nnoremap <leader>. :CtrlPTag<cr>
-
 " no bells
 set noerrorbells visualbell t_vb=
 
@@ -190,7 +181,7 @@ let g:buffergator_viewport_split_policy = 'R'
 let g:buffergator_suppress_keymaps = 1
 
 " Looper buffers
-"let g:buffergator_mru_cycle_loop = 1
+"" let g:buffergator_mru_cycle_loop = 1
 
 " Go to the previous buffer open
 nmap <leader>jj :BuffergatorMruCyclePrev<cr>
@@ -204,6 +195,9 @@ nmap <leader>bl :BuffergatorOpen<cr>
 " Shared bindings from Solution #1 from earlier
 nmap <leader>T :enew<cr>
 nmap <leader>bq :bp <BAR> bd #<cr>
+
+" tagbar toggle
+nmap <F9> :TagbarToggle<CR>
 
 " Vim Airline
 let g:airline_powerline_fonts = 1
@@ -226,27 +220,36 @@ let g:airline_theme = 'bubblegum'
 " UndoTree
 nnoremap <F6> :UndotreeToggle<CR>
 
-" snippets
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
-
-
+" remove trailing whitespace
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 
 " syntastic recommended settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" (disable while trying out ALE)
+"" set statusline+=%#warningmsg#
+"" set statusline+=%{SyntasticStatuslineFlag()}
+"" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ignore_files = ['\m.twig$','\m.css$']
+"" let g:syntastic_always_populate_loc_list = 1
+"" let g:syntastic_auto_loc_list = 1
+"" let g:syntastic_check_on_open = 1
+"" let g:syntastic_check_on_wq = 0
+"" let g:syntastic_ignore_files = ['\m.twig$','\m.css$']
+"" let g:syntastic_quiet_messages = { "type": "style" }
 
-" " " " " " " " " " " " " " " " " " " " " " " " "
+" ALE
+let g:ale_php_phpcs_standard = "PSR2"
+let g:ale_sign_column_always=1
+let g:ale_pattern_options = {'\.class.php$': { 'ale_enabled': 0 }} " disable for older code
+let g:ale_fixers = {
+            \'php': ['phpcbf']}
+let g:ale_linters = {
+            \'html':['HTMLHint','proselint'],
+            \'css': ['stylelint','prettier']}
+
+" Emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,twig EmmetInstall
+
 " Show function names in cwindow
 nmap <leader>ff :call ShowFunc("no")<cr><Esc>
 nmap <leader>fa :call ShowFunc("yes")<cr><Esc>
@@ -254,15 +257,15 @@ function! ShowFunc(sort)
     let gf_s = &grepformat
     let gp_s = &grepprg
     if ( &filetype == "c" || &filetype == "php" || &filetype == "python" ||
-      \ &filetype == "sh" )
-      let &grepformat='%*\k%*\sfunction%*\s%l%*\s%f %m'
-      let &grepprg = 'ctags -x --'.&filetype.'-types=f --sort='.a:sort
+                \ &filetype == "sh" )
+        let &grepformat='%*\k%*\sfunction%*\s%l%*\s%f %m'
+        let &grepprg = 'ctags -x --'.&filetype.'-types=f --sort='.a:sort
     elseif ( &filetype == "perl" )
-      let &grepformat='%*\k%*\ssubroutine%*\s%l%*\s%f %m'
-      let &grepprg = 'ctags -x --perl-types=s --sort='.a:sort
+        let &grepformat='%*\k%*\ssubroutine%*\s%l%*\s%f %m'
+        let &grepprg = 'ctags -x --perl-types=s --sort='.a:sort
     elseif ( &filetype == "vim" )
-      let &grepformat='%*\k%*\sfunction%*\s%l%*\s%f %m'
-      let &grepprg = 'ctags -x --vim-types=f --language-force=vim --sort='.a:sort
+        let &grepformat='%*\k%*\sfunction%*\s%l%*\s%f %m'
+        let &grepprg = 'ctags -x --vim-types=f --language-force=vim --sort='.a:sort
     endif
     if (&readonly == 0) | update | endif
     silent! grep %
@@ -271,30 +274,20 @@ function! ShowFunc(sort)
     let &grepformat = gf_s
     let &grepprg = gp_s
 endfunc
-" " " " " " " " " " " " " " " " " " " " " " " " "
+
 " lazy pasting to avoid :set paste :set nopaste
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
-
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
-
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
-
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
-endfunction
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-" " " " " " " " " " " " " " " " " " " " " " " " "
+
+function! XTermPasteBegin()
+    set pastetoggle=<Esc>[201~
+    set paste
+    return ""
+endfunction
+
+
 " Faster scroll mode
 let g:multiscroll_on = 0
 function! MultiScroll()

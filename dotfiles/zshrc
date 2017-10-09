@@ -49,7 +49,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git) 
+plugins=(git)
 
 # User configuration
 
@@ -91,17 +91,26 @@ alias composer="php /usr/bin/composer.phar"
 alias sport="cd ~/projects/work/thejournal-sports/"
 alias infrastructure="cd ~/projects/work/thejournal-infrastructure/"
 alias front="cd ~/projects/work/thejournal-front/"
-alias journal="cd ~/projects/work/thejournal/"
+alias web="cd ~/projects/work/web/"
+alias digest="cd ~/projects/work/digest/"
+alias careers="cd ~/projects/work/careers/"
+alias api="cd ~/projects/work/thejournal/"
 alias playback="cd ~/projects/work/playback/"
 alias ads="cd ~/projects/work/advertising/"
 alias tmux="tmux -2"
 alias api-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/api2-dev/ && vagrant reload)"
+alias front-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/front2-dev/ && vagrant reload)"
+alias web-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/web-dev/ && vagrant reload)"
+alias digest-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/digest-dev/ && vagrant reload)"
 alias gdl="git diff --name-only HEAD HEAD^1"
-alias vim-dirty='nvim `git status --porcelain | sed -ne "s/^ M //p"`'
+alias vim-dirty='nvim `git status -s | sed -ne "s/^ M //p"`' # use --porcelain flag if this breaks
 alias vundle-install="nvim +PluginInstall +qall"
 alias vundle-update="nvim +PluginUpdate +qall"
 alias sudo='sudo ' # better sudo !!
 alias vim='nvim'
+alias ag='ag --path-to-ignore ~/.ignore'
+alias phpcs='/Users/eoghan/projects/PHP_CodeSniffer/scripts/phpcs'
+alias phpcbf='/Users/eoghan/projects/PHP_CodeSniffer/scripts/phpcbf'
 
 
 # vimf - Open selected file in Vim with fzf and add to zsh_history
@@ -144,4 +153,5 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+export FZF_DEFAULT_COMMAND='ag --path-to-ignore ~/.ignore -g ""'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
