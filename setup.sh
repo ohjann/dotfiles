@@ -169,4 +169,6 @@ install_zsh
 
 source ~/.zshrc
 
-install_nvim
+if [ ! "$1" = "--skip-nvim" ]; then
+    install_nvim
+fi
