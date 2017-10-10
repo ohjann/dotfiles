@@ -167,6 +167,8 @@ install_nvim() {
 main
 install_zsh
 
+# link zsh theme
+ln -s ~/dotfiles/themes/ohjannrussell.zsh-theme $HOME/.oh-my-zsh/themes
 source ~/.zshrc
 
 if [ ! "$1" = "--skip-nvim" ]; then
