@@ -171,3 +171,8 @@ install_zsh
 # link zsh theme
 ln -s ~/dotfiles/dotfiles/ohjannrussell.zsh-theme $HOME/.oh-my-zsh/themes
 source ~/.zshrc
+
+## Not working
+if [ ! "$1" = "--skip-nvim" ]; then
+    install_nvim
+fi
