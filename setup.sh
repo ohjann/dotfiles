@@ -166,8 +166,8 @@ install_nvim() {
   fi
 }
 
-install_zsh
 main
+install_zsh
 
 # link zsh theme
 ln -s ~/dotfiles/ohjannrussell.zsh-theme $HOME/.oh-my-zsh/themes
