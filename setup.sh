@@ -141,6 +141,30 @@ install_zsh () {
 }
 
 
+install_nvim() {
+  # Test to see if neovim is installed. If it is:
+  if [ -f /bin/nvim -o -f /usr/bin/nvim -o -f /usr/local/bin/nvim ]; then
+    # install vundle
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    nvim +BundleInstall
+  else
+    platform=$(uname);
+    if [[ $platform == 'Linux' ]]; then
+      # https://github.com/neovim/neovim/wiki/Installing-Neovim
+      sudo apt-get install software-properties-common
+      sudo apt-get install python-software-properties
+      sudo add-apt-repository ppa:neovim-ppa/stable
+      sudo apt-get update
+      sudo apt-get install neovim
+      install_nvim
+    elif [[ $platform == 'Darwin' ]]; then
+      echo "We'll install neovim, then re-run this script!"
+      brew install neovim
+      exit
+    fi
+  fi
+}
+
 main
 install_zsh
 
