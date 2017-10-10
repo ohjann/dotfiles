@@ -1,8 +1,7 @@
 if [[ -z "$SSH_CLIENT" ]]; then
   local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 else
-  local ret_status="%(%{$fg_bold[white]%}%M ?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-  
+  local ret_status="[%{$fg_bold[white]%}%M] %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 fi
 PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 

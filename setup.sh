@@ -76,7 +76,7 @@ cd $dir
 echo "done"
 
 declare -a FILES_TO_SYMLINK=(
-    'dotfiles/agignore'
+    'dotfiles/ignore'
     'dotfiles/tmux.conf'
     'dotfiles/vimrc'
     'dotfiles/zshrc'
@@ -170,7 +170,7 @@ main
 install_zsh
 
 # link zsh theme
-ln -s ~/dotfiles/ohjannrussell.zsh-theme $HOME/.oh-my-zsh/themes
+ln -s ~/dotfiles/dotfiles/ohjannrussell.zsh-theme $HOME/.oh-my-zsh/themes
 source ~/.zshrc
 
 if [ ! "$1" = "--skip-nvim" ]; then
