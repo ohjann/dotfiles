@@ -43,22 +43,16 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ap/vim-css-color'
 Plugin 'mattn/emmet-vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-abolish'
+Plugin 'chr4/nginx.vim'
 
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-"return the syntax highlight group under the cursor ''
-function! StatuslineCurrentHighlight()
-    let name = synIDattr(synID(line('.'),col('.'),1),'name')
-    if name == ''
-        return ''
-    else
-        return '[' . name . ']'
-    endif
-endfunction
-
+" search highlight colours
+hi Search cterm=NONE ctermfg=white ctermbg=5
 syntax on
 set synmaxcol=250
 set backspace=2
@@ -95,6 +89,10 @@ set statusline+=%l/%L "cursor line/total lines
 set statusline+=\ %P "percent through file
 set laststatus=2
 set mouse=""         " disable mouse
+
+" javascript different indentation
+autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
+autocmd Filetype css setlocal ts=2 sw=2 sts=0 expandtab
 
 nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
@@ -240,11 +238,18 @@ nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_sign_column_always=1
 let g:ale_pattern_options = {'\.class.php$': { 'ale_enabled': 0 }} " disable for older code
+let g:ale_javascript_prettier_eslint_use_global = 1
+let g:ale_css_prettier_use_global = 1
+let g:ale_css_stylelint_use_global = 1
+let g:ale_css_stylelint_options = '--config ~/.stylelintrc'
 let g:ale_fixers = {
-            \'php': ['phpcbf']}
+            \'php': ['phpcbf'],
+            \'css': ['stylelint','prettier'],
+            \'javascript': ['prettier-eslint']}
 let g:ale_linters = {
-            \'html':['HTMLHint','proselint'],
-            \'css': ['stylelint','prettier']}
+            \'html': ['HTMLHint','proselint'],
+            \'css': ['stylelint','prettier'],
+            \'javascript': ['eslint','prettier']}
 
 " Emmet
 let g:user_emmet_install_global = 0
