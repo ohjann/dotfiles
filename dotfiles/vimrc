@@ -1,6 +1,3 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
 " fzf
 set rtp+=~/.fzf
 " FZF integration
@@ -10,50 +7,34 @@ let g:fzf_action = {
             \ 'ctrl-t': 'tabedit'}
 nnoremap <C-f> :FZF<cr>
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"" call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
+call plug#begin('~/.vim/bundle')
 " plugins
-Plugin 'mbbill/undotree'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'jeetsukumaran/vim-buffergator.git'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'aperezdc/vim-template.git'
-Plugin 'evidens/vim-twig.git'
-Plugin 'unblevable/quick-scope'
-Plugin 'rking/ag.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'tpope/vim-surround'
-"" Plugin 'scrooloose/syntastic' disable while trying out ALE
-Plugin 'sheerun/vim-polyglot'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mhinz/vim-signify'
-Plugin 'w0rp/ale'
-Plugin 'majutsushi/tagbar'
-Plugin 'ap/vim-css-color'
-Plugin 'mattn/emmet-vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'tpope/vim-abolish'
-Plugin 'chr4/nginx.vim'
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'aperezdc/vim-template'
+Plug 'lumiliet/vim-twig'
+Plug 'junegunn/goyo.vim'
+Plug 'tpope/vim-surround'
+Plug 'sheerun/vim-polyglot'
+Plug 'pangloss/vim-javascript'
+Plug 'mhinz/vim-signify'
+Plug 'w0rp/ale'
+Plug 'majutsushi/tagbar'
+Plug 'ap/vim-css-color'
+Plug 'mattn/emmet-vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-abolish'
+Plug 'chr4/nginx.vim'
+Plug 'gabesoft/vim-ags'
+call plug#end()
 
 " search highlight colours
 hi Search cterm=NONE ctermfg=white ctermbg=5
-syntax on
 set synmaxcol=250
 set backspace=2
 set background=dark
@@ -129,8 +110,6 @@ map <F6> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>)
 nmap <F7> :TagbarToggle<CR>
 " go to definition
 map <F8> <C-]>
-" maps NERDTree to F10
-map <silent> <F10> :NERDTreeToggle<CR>
 " confirm before quit
 map :wq<CR>  :confirm quit<CR>
 map :q<CR>  :confirm quit<CR>
@@ -221,19 +200,6 @@ nnoremap <F6> :UndotreeToggle<CR>
 " remove trailing whitespace
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 
-" syntastic recommended settings
-" (disable while trying out ALE)
-"" set statusline+=%#warningmsg#
-"" set statusline+=%{SyntasticStatuslineFlag()}
-"" set statusline+=%*
-
-"" let g:syntastic_always_populate_loc_list = 1
-"" let g:syntastic_auto_loc_list = 1
-"" let g:syntastic_check_on_open = 1
-"" let g:syntastic_check_on_wq = 0
-"" let g:syntastic_ignore_files = ['\m.twig$','\m.css$']
-"" let g:syntastic_quiet_messages = { "type": "style" }
-
 " ALE
 let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_sign_column_always=1
@@ -250,6 +216,14 @@ let g:ale_linters = {
             \'html': ['HTMLHint','proselint'],
             \'css': ['stylelint','prettier'],
             \'javascript': ['eslint','prettier']}
+
+" php.vim – improve performance
+let g:php_html_load = 0
+let g:php_html_in_heredoc = 0
+let g:php_html_in_nowdoc = 0
+let g:php_sql_query = 0
+let g:php_sql_heredoc = 0
+let g:php_sql_nowdoc = 0
 
 " Emmet
 let g:user_emmet_install_global = 0
