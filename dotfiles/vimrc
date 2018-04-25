@@ -12,8 +12,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'aperezdc/vim-template'
@@ -24,6 +23,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'pangloss/vim-javascript'
 Plug 'mhinz/vim-signify'
 Plug 'w0rp/ale'
+Plug 'maximbaz/lightline-ale'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-css-color'
 Plug 'mattn/emmet-vim'
@@ -70,6 +70,7 @@ set statusline+=%l/%L "cursor line/total lines
 set statusline+=\ %P "percent through file
 set laststatus=2
 set mouse=""         " disable mouse
+set noshowmode       " unecessary with lightline
 
 " javascript different indentation
 autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
@@ -176,18 +177,34 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 " tagbar toggle
 nmap <F9> :TagbarToggle<CR>
 
-" Vim Airline
-let g:airline_powerline_fonts = 1
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Enable syntastic integration
-let g:airline#extensions#syntastic#enabled = 1
-
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" theme
-let g:airline_theme = 'bubblegum'
+" lightline options
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [['mode', 'paste'],
+            \           ['gitbranch', 'readonly', 'filename', 'modified' ]]
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'fugitive#head'
+            \ },
+            \}
+" lightline-ale
+let g:lightline.component_expand = {
+            \  'linter_checking': 'lightline#ale#checking',
+            \  'linter_warnings': 'lightline#ale#warnings',
+            \  'linter_errors': 'lightline#ale#errors',
+            \  'linter_ok': 'lightline#ale#ok',
+            \ }
+let g:lightline.component_type = {
+            \     'linter_checking': 'left',
+            \     'linter_warnings': 'warning',
+            \     'linter_errors': 'error',
+            \     'linter_ok': 'left',
+            \ }
+let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]] }
+let g:lightline#ale#indicator_warnings = "⚠️ "
+let g:lightline#ale#indicator_errors = "✘"
+let g:lightline#ale#indicator_ok = "😎🤙"
 
 " highlight print statements
 :highlight preprint ctermbg=blue
