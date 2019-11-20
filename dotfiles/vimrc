@@ -11,7 +11,7 @@ call plug#begin('~/.vim/bundle')
 " plugins
 Plug 'Lokaltog/vim-easymotion'
 Plug 'ap/vim-css-color'
-Plug 'aperezdc/vim-template'
+" Plug 'aperezdc/vim-template'
 Plug 'chr4/nginx.vim'
 Plug 'gabesoft/vim-ags'
 Plug 'jeetsukumaran/vim-buffergator'
@@ -28,10 +28,15 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'w0rp/ale'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'iCyMind/NeoSolarized'
 " Lightline
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
+" FZF
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " search highlight colours
@@ -39,14 +44,20 @@ hi Search cterm=NONE ctermfg=white ctermbg=5
 set synmaxcol=250
 set backspace=2
 set background=dark
+colorscheme palenight
+
+" set background=light
+" colorscheme NeoSolarized
+" let g:neosolarized_contrast = "low"
+
 set hidden           " Make certain buffers hidden
 set pastetoggle=<F2> " Bind pastetoggle to F2
 set showmode         " Show what mode you're in
 set nocompatible
 set ai               " Set autoindent
 set smartindent      " Use intelligent indentation
-set tabstop=4        " Tab width is 4 spaces
-set shiftwidth=4     " Indent also with 4 spaces
+set tabstop=2        " Tab width is 2 spaces
+set shiftwidth=2     " Indent also with 2 spaces
 set expandtab        " Expand tabs to spaces
 set textwidth=0      " Sets width of text per line, 0 for line wrapping
 set wrap             " Set wrapping
@@ -70,8 +81,9 @@ set statusline+=\ \ %c, "cursor column
 set statusline+=%l/%L "cursor line/total lines
 set statusline+=\ %P "percent through file
 set laststatus=2
-set mouse=""         " disable mouse
+set mouse=n          " enable mouse in normal mode
 set noshowmode       " unecessary with lightline
+set termguicolors		 " fix colours
 
 " javascript different indentation
 autocmd Filetype javascript setlocal ts=2 sw=2 sts=0 expandtab
@@ -142,9 +154,9 @@ let g:templates_directory='~/.vim/templates/'
 
 let mapleader=" "
 
-" highlights text with blue when it goes over 80 characters
+" highlights text with blue when it goes over 120 characters
 highlight OverLength ctermbg=Blue ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+match OverLength /\%120v.\+/
 
 " no bells
 set noerrorbells visualbell t_vb=
@@ -175,6 +187,8 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 " tagbar toggle
 nmap <F9> :TagbarToggle<CR>
 
+com! FormatJSON %!python -m json.tool
+
 " lightline options
 let g:lightline = {'active' : {}, 'inactive' : {}}
 let g:lightline.colorscheme='wombat'
@@ -203,12 +217,6 @@ let g:lightline.component_function = {'gitbranch': 'fugitive#head'}
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#min_buffer_count = 1
 
-
-" highlight print statements
-:highlight preprint ctermbg=blue
-:highlight preprint ctermfg=white
-:match preprint /pre_print_r(.*);/
-
 " UndoTree
 nnoremap <F6> :UndotreeToggle<CR>
 
@@ -216,29 +224,16 @@ nnoremap <F6> :UndotreeToggle<CR>
 nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 
 " ALE
-let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_sign_column_always=1
-let g:ale_pattern_options = {'\.class.php$': { 'ale_enabled': 0 }} " disable for older code
-let g:ale_javascript_prettier_eslint_use_global = 1
-let g:ale_css_prettier_use_global = 1
-let g:ale_css_stylelint_use_global = 1
-let g:ale_css_stylelint_options = '--config ~/.stylelintrc'
 let g:ale_fixers = {
-            \'php': ['phpcbf'],
             \'css': ['stylelint','prettier'],
-            \'javascript': ['prettier-eslint']}
+            \'javascript': ['prettier', 'eslint']}
 let g:ale_linters = {
             \'html': ['HTMLHint','proselint'],
             \'css': ['stylelint','prettier'],
+            \'scss': ['sasslint','prettier'],
             \'javascript': ['eslint','prettier']}
-
-" php.vim – improve performance
-let g:php_html_load = 0
-let g:php_html_in_heredoc = 0
-let g:php_html_in_nowdoc = 0
-let g:php_sql_query = 0
-let g:php_sql_heredoc = 0
-let g:php_sql_nowdoc = 0
+let g:ale_scss_sasslint_options = '--config $(git rev-parse --show-toplevel)/.sass-lint.yml'
 
 " Emmet
 let g:user_emmet_install_global = 0
@@ -281,6 +276,20 @@ function! XTermPasteBegin()
     return ""
 endfunction
 
+
+" Use ripgrep instead of ag
+let g:ags_agexe = 'rg'
+
+let g:ags_agargs = {
+  \ '--column'         : ['', ''],
+  \ '--line-number'    : ['', ''],
+  \ '--context'        : ['g:ags_agcontext', '-C'],
+  \ '--max-count'      : ['g:ags_agmaxcount', ''],
+  \ '--heading'        : ['',''],
+  \ '--smart-case'     : ['','-S'],
+  \ '--color'          : ['always',''],
+  \ '--colors'         : [['match:fg:green', 'match:bg:black', 'match:style:nobold', 'path:fg:red', 'path:style:bold', 'line:fg:black', 'line:style:bold'] ,''],
+  \ }
 
 " Faster scroll mode
 let g:multiscroll_on = 0
