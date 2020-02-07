@@ -12,7 +12,6 @@ call plug#begin('~/.vim/bundle')
 Plug 'Lokaltog/vim-easymotion'
 Plug 'ap/vim-css-color'
 " Plug 'aperezdc/vim-template'
-Plug 'chr4/nginx.vim'
 Plug 'gabesoft/vim-ags'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'junegunn/goyo.vim'
@@ -26,10 +25,14 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-vinegar'
+Plug 'justinmk/vim-dirvish'
+Plug 'kristijanhusak/vim-dirvish-git'
 Plug 'w0rp/ale'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'iCyMind/NeoSolarized'
+Plug 'moll/vim-node'
+Plug 'rhysd/conflict-marker.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 " Lightline
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
@@ -227,17 +230,24 @@ nnoremap <Leader>rtw :%s/\s\+$//e<CR>
 let g:ale_sign_column_always=1
 let g:ale_fixers = {
             \'css': ['stylelint','prettier'],
-            \'javascript': ['prettier', 'eslint']}
+            \'javascript': ['prettier', 'eslint'],
+            \'rust': ['rustfmt'],
+            \'python': ['autopep8']}
 let g:ale_linters = {
             \'html': ['HTMLHint','proselint'],
             \'css': ['stylelint','prettier'],
             \'scss': ['sasslint','prettier'],
-            \'javascript': ['eslint','prettier']}
+            \'javascript': ['eslint','prettier'],
+            \'rust': ['rustfmt','rustc'],
+            \'python': ['pycodestyle']}
 let g:ale_scss_sasslint_options = '--config $(git rev-parse --show-toplevel)/.sass-lint.yml'
 
 " Emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,twig EmmetInstall
+
+" markdown-preview
+let g:mkdp_auto_start = 1
 
 " Show function names in cwindow
 nmap <leader>ff :call ShowFunc("no")<cr><Esc>
@@ -275,7 +285,6 @@ function! XTermPasteBegin()
     set paste
     return ""
 endfunction
-
 
 " Use ripgrep instead of ag
 let g:ags_agexe = 'rg'

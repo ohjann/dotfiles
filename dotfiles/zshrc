@@ -49,12 +49,11 @@ ZSH_THEME="ohjannrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting git-open)
 
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/eoghan/.fzf/bin"
-export GIT_TEMPLATE_DIR=`overcommit --template-dir`
 # export MANPATH="/usr/local/man:$MANPATH"
 
 
@@ -87,21 +86,6 @@ export LESS="-R -F -X"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias composer="php /usr/bin/composer.phar"
-alias sport="cd ~/projects/work/thejournal-sports/"
-alias infrastructure="cd ~/projects/work/thejournal-infrastructure/"
-alias front="cd ~/projects/work/thejournal-front/"
-alias web="cd ~/projects/work/web/"
-alias digest="cd ~/projects/work/digest/"
-alias careers="cd ~/projects/work/careers/"
-alias api="cd ~/projects/work/thejournal/"
-alias playback="cd ~/projects/work/playback/"
-alias ads="cd ~/projects/work/advertising/"
-alias tmux="tmux -2"
-alias api-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/api2-dev/ && vagrant reload)"
-alias front-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/front2-dev/ && vagrant reload)"
-alias web-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/web-dev/ && vagrant reload)"
-alias digest-vagrant="(cd ~/projects/work/thejournal-infrastructure/vagrant/digest-dev/ && vagrant reload)"
 alias gdl="git diff --name-only HEAD HEAD^1"
 alias vim-dirty='nvim `git status -s | sed -ne "s/^ M //p"`' # use --porcelain flag if this breaks
 alias vundle-install="nvim +PluginInstall +qall"
@@ -109,9 +93,11 @@ alias vundle-update="nvim +PluginUpdate +qall"
 alias sudo='sudo ' # better sudo !!
 alias vim='nvim'
 alias ag='ag --path-to-ignore ~/.ignore'
-alias phpcs='/Users/eoghan/projects/PHP_CodeSniffer/scripts/phpcs'
-alias phpcbf='/Users/eoghan/projects/PHP_CodeSniffer/scripts/phpcbf'
 
+export NPM_TOKEN=""
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # vimf - Open selected file in Vim with fzf and add to zsh_history
 vimf() {
@@ -125,9 +111,6 @@ fd() {
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
 }
-
-# Load zsh-syntax-highlighting.
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Load zsh-autosuggestions.
 #source ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
@@ -153,5 +136,11 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-export FZF_DEFAULT_COMMAND='ag --path-to-ignore ~/.ignore -g ""'
+# export FZF_DEFAULT_COMMAND='ag --path-to-ignore ~/.ignore -g ""'
+export FZF_DEFAULT_COMMAND='rg --files'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
